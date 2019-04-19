@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.Comment">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="video_id" jdbcType="BIGINT" property="videoId" />
+    <result column="from_user_id" jdbcType="BIGINT" property="fromUserId" />
+    <result column="to_user_id" jdbcType="BIGINT" property="toUserId" />
+    <result column="topic_type" jdbcType="VARCHAR" property="topicType" />
+    <result column="cotent" jdbcType="VARCHAR" property="cotent" />
+    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
+    <result column="topic_id" jdbcType="VARCHAR" property="topicId" />
+  </resultMap>
+
+  <!--List<CommentCustom> getcommentbyid(String video_id)-->
+  <select id="getcommentbyid" resultType="com.bupt.qingzaoreading.vo.CommentCustom" parameterType="java.lang.String" >
+    select
+   comment_id, video_id, from_user_id,
+      to_user_id, topic_type, cotent,
+      comment_date,user_name,user_grade,user_head_portrait_url
+    from comment,user
+    where user_id=from_user_id and video_id=#{video_id};
+  </select>
+<!-- void addANewComment(Comment comment) -->
+  <!--void addANewVideoComment (CommnetCustom comment)-->
+  <insert id="addANewVideoComment" parameterType="com.bupt.qingzaoreading.po.Comment" useGeneratedKeys="true" keyProperty="comment_id">
+    insert into comment ( video_id, from_user_id,
+      to_user_id, topic_type, cotent,
+      comment_date)
+    values ( #{videoId}, #{fromUserId},
+      #{toUserId}, #{topicType}, #{cotent},
+      #{commentDate})
+  </insert>
+</mapper>

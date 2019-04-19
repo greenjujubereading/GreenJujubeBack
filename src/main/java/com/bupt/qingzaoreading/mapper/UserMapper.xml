@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_student_id" jdbcType="BIGINT" property="userStudentId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_is_it_vip" jdbcType="VARCHAR" property="userIsItVip" />
+    <result column="user_vip_expiration_time" jdbcType="TIMESTAMP" property="userVipExpirationTime" />
+    <result column="user_invited_user_id" jdbcType="BIGINT" property="userInvitedUserId" />
+    <result column="user_integral" jdbcType="DECIMAL" property="userIntegral" />
+    <result column="user_money" jdbcType="DECIMAL" property="userMoney" />
+    <result column="user_wechat_number" jdbcType="VARCHAR" property="userWechatNumber" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_grade" jdbcType="VARCHAR" property="userGrade" />
+    <result column="user_head_portrait_url" jdbcType="LONGVARCHAR" property="userHeadPortraitUrl" />
+  </resultMap>
+
+  <!-- User getUserByid(User user); -->
+  <select id="getUserByid" parameterType="com.bupt.qingzaoreading.po.User" resultType="com.bupt.qingzaoreading.po.User">
+    SELECT
+        user_id,user_password
+    FROM
+        user
+    WHERE
+        user_id = #{userId}
+  </select>
+
+<!-- User getUserByPhoneNumber(User user); -->
+  <select id="getUserByPhoneNumber" parameterType="com.bupt.qingzaoreading.po.User" resultType="com.bupt.qingzaoreading.po.User">
+    SELECT
+        *
+    FROM
+        user
+    WHERE
+        user_phone = #{userPhone}
+  </select>
+  <!-- int getUserTotal() -->
+  <select id="getUserTotal" resultType="_int">
+    select
+   count(1)
+    from user;
+
+  </select>
+
+  <!-- void setPasswordAndUserTypeToTrue(User user) -->
+  <update id="setPasswordAndUserTypeToTrue" parameterType="com.bupt.qingzaoreading.po.User">
+    update user
+    set
+      user_type = "1" ,user_password=#{userPassword}
+     where user_phone=#{userPhone};
+  </update>
+
+
+  <!--User getUserByPhoneNumberAndPassword(User user)-->
+  <select id="getUserByPhoneNumberAndPassword" resultType="com.bupt.qingzaoreading.po.User"
+          parameterType="com.bupt.qingzaoreading.po.User">
+   select
+   *
+    from user
+   where  user_phone = #{userPhone} and user_password=#{userPassword};
+  </select>
+
+  <!-- void updateUser(User user) -->
+  <update id="updateUser" parameterType="com.bupt.qingzaoreading.po.User">
+    update user
+    set
+      user_name=#{userName},
+      user_sex=#{userSex},
+      user_grade=#{userGrade},
+      user_birthday=#{userBirthday}
+      where user_id=#{userId}
+  </update>
+
+    <!--User getUserById(String user_id);-->
+    <select id="getUserById" resultType="com.bupt.qingzaoreading.po.User"
+            parameterType="java.lang.String">
+   select
+   *
+    from user
+   where  user_id = #{user_id};
+  </select>
+</mapper>

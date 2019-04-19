@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.UserCollectionMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.UserCollection">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_collection_id" jdbcType="BIGINT" property="userCollectionId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="video_id" jdbcType="BIGINT" property="videoId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+  </resultMap>
+
+  <!-- UserCollection getUserCollectionByvideoiduserid(UserCollection usercollection); -->
+  <select id="getUserCollectionByvideoiduserid" resultType="com.bupt.qingzaoreading.po.UserCollection"  parameterType="com.bupt.qingzaoreading.po.UserCollection">
+    select
+   *
+    from user_collection
+    where user_id = #{userId} and video_id=#{videoId};
+  </select>
+  <!-- void updataUserCollection(UserCollection usercollection)-->
+  <update id="updataUserCollection" parameterType="com.bupt.qingzaoreading.po.UserCollection">
+    update user_collection
+    set  number =number+1
+    where user_id = #{userId} and video_id=#{videoId};
+  </update>
+
+
+  <!-- UserCollection getUserCollectionByid(UserCollection uc) 结果只有一个，用于检验是收藏还是取消收藏-->
+  <select id="getUserCollectionByid" resultType="com.bupt.qingzaoreading.po.UserCollection"
+          parameterType="com.bupt.qingzaoreading.po.UserCollection">
+    select
+   *
+    from user_collection
+    where user_id = #{userId} and video_id=#{videoId};
+  </select>
+
+
+  <!--void addCollection(UserCollection uc);-->
+
+    <insert id="addCollection" parameterType="com.bupt.qingzaoreading.po.UserCollection">
+      insert into user_collection (user_id, video_id, time, number)
+      values (#{userId}, #{videoId}, now(), "1")
+    </insert>
+
+      <!--void deleteByUserAndVideo(UserCollection uc)-->
+      <delete id="deleteByUserAndVideo" parameterType="com.bupt.qingzaoreading.po.UserCollection">
+            delete from user_collection
+            where user_id = #{userId} and video_id = #{videoId}
+        </delete>
+
+    <!--List<BookList> getcollection(String user_id)-->
+    <select id="getcollection" resultType="com.bupt.qingzaoreading.vo.BookList"
+            parameterType="java.lang.String">
+    select
+        video.`name`,video.video_id,video.video_cover_url
+    from user_collection,video
+    where user_collection.video_id=video.video_id and user_id = #{user_id} ;
+  </select>
+</mapper>

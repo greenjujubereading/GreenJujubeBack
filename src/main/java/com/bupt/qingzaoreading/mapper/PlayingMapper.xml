@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.PlayingMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.Playing">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="playing_id" jdbcType="BIGINT" property="playingId" />
+    <result column="video_id" jdbcType="BIGINT" property="videoId" />
+    <result column="picture_url" jdbcType="LONGVARCHAR" property="pictureUrl" />
+  </resultMap>
+
+  <!-- List<Playing> getCarousel() -->
+  <select id="getCarousel" resultType="com.bupt.qingzaoreading.po.Playing" >
+    select
+    *
+    from playing;
+  </select>
+
+
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.UserVipLogMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.UserVipLog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_vip_log_id" jdbcType="BIGINT" property="userVipLogId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="increased_vip_duration" jdbcType="INTEGER" property="increasedVipDuration" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="operation_type" jdbcType="VARCHAR" property="operationType" />
+  </resultMap>
+</mapper>

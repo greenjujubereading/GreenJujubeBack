@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.UserHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.UserHistory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_history_id" jdbcType="BIGINT" property="userHistoryId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="video_id" jdbcType="BIGINT" property="videoId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+  </resultMap>
+
+
+  <!-- UserHistory getUserHistoryByvideoiduserid(UserHistory userhistory) -->
+  <select id="getUserHistoryByvideoiduserid" resultType="com.bupt.qingzaoreading.po.UserHistory" parameterType="com.bupt.qingzaoreading.po.UserHistory" >
+    select
+   *
+    from user_history
+   where user_id=#{userId} and video_id=#{videoId};
+  </select>
+<!-- void  addUserHistory(UserHistory userhistory);-->
+  <insert id="addUserHistory" parameterType="com.bupt.qingzaoreading.po.UserHistory" >
+    insert into user_history (user_id, video_id, time, number)
+    values ( #{userId}, #{videoId}, now(), "1");
+  </insert>
+  <!--	 void updataUserHistory(UserHistory userhistory);-->
+  <update id="updataUserHistory" parameterType="com.bupt.qingzaoreading.po.UserHistory" >
+    update user_history
+      set number = number+1
+      where user_id=#{userId} and video_id=#{videoId}
+  </update>
+
+  <!-- List<BookList> gethistory(String user_id) -->
+  <select id="gethistory" resultType="com.bupt.qingzaoreading.vo.BookList"
+          parameterType="java.lang.String">
+    select
+        video.`name`,video.video_id,video.video_cover_url
+    from user_history,video
+    where user_history.video_id=video.video_id and user_id = #{user_id} ;
+  </select>
+</mapper>

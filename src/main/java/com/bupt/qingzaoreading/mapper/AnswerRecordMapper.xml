@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.AnswerRecordMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.AnswerRecord">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="answer_record_id" jdbcType="BIGINT" property="answerRecordId" />
+    <result column="question_id" jdbcType="BIGINT" property="questionId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.LecturerMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.Lecturer">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="lecturer_id" jdbcType="BIGINT" property="lecturerId" />
+    <result column="lecturer_name" jdbcType="VARCHAR" property="lecturerName" />
+    <result column="lecturer_head_portrait_url" jdbcType="LONGVARCHAR" property="lecturerHeadPortraitUrl" />
+    <result column="lecturer_introduction" jdbcType="LONGVARCHAR" property="lecturerIntroduction" />
+  </resultMap>
+
+
+  <!-- Lecturer getlecturerbyid(String lecturer_id) -->
+  <select id="getlecturerbyid" resultType="com.bupt.qingzaoreading.po.Lecturer" parameterType="java.lang.String" >
+    select
+   *
+    from lecturer
+   where lecturer_id=#{lecturer_id};
+  </select>
+
+
+
+
+
+
+</mapper>

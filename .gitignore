@@ -1,0 +1,16 @@
+/target
+/.idea
+/out
+*.iml
+.project
+.classpath
+
+
+*.class
+
+
+*.jar
+*.war
+*.zip
+*.rar
+*.tar.gz

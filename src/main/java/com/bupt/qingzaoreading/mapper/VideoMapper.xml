@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bupt.qingzaoreading.dao.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.bupt.qingzaoreading.po.Video">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="video_id" jdbcType="BIGINT" property="videoId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="short_introduction" jdbcType="VARCHAR" property="shortIntroduction" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="lecturer_id" jdbcType="BIGINT" property="lecturerId" />
+    <result column="video_type" jdbcType="VARCHAR" property="videoType" />
+    <result column="video_year" jdbcType="VARCHAR" property="videoYear" />
+    <result column="number_of_readers" jdbcType="BIGINT" property="numberOfReaders" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="video_url" jdbcType="LONGVARCHAR" property="videoUrl" />
+    <result column="video_cover_url" jdbcType="LONGVARCHAR" property="videoCoverUrl" />
+    <result column="sound_url" jdbcType="LONGVARCHAR" property="soundUrl" />
+    <result column="parental_guidance" jdbcType="LONGVARCHAR" property="parentalGuidance" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="recommend" jdbcType="VARCHAR" property="recommend" />
+  </resultMap>
+
+
+  <!-- List<BookList> getBooklist(); -->
+  <select id="getBooklist" resultType="com.bupt.qingzaoreading.vo.BookList">
+    select
+ 		video_id,video_cover_url,name,short_introduction,video_type,video_year,number_of_readers,time
+    from video where publish_time &lt; now() order by publish_time;
+  </select>
+
+
+  <!-- List<BookRecommend> getBookrecommend() Home reommend book-->
+  <select id="getBookrecommend" resultType="com.bupt.qingzaoreading.vo.BookRecommend">
+    select
+ 		video_id,video_cover_url,name
+    from video where publish_time &lt; now() and recommend=1 order by publish_time desc limit 4;
+  </select>
+
+  <!-- List<BookRecommend> getRecommendBooklist() Home reommend book more-->
+  <select id="getRecommendBooklist" resultType="com.bupt.qingzaoreading.vo.BookList">
+    select
+ 		video_id,video_cover_url,name,short_introduction,video_type,video_year,number_of_readers,time
+    from video where publish_time &lt; now() and recommend=1 order by publish_time;
+  </select>
+
+
+  <!-- List<BookRecommend> getRecentBooklist() Home recent book more-->
+  <select id="getRecentBooklist" resultType="com.bupt.qingzaoreading.vo.BookList">
+    select
+ 		video_id,video_cover_url,name,short_introduction,video_type,video_year,number_of_readers,time
+    from video where publish_time &lt; now() order by publish_time;
+  </select>
+
+  <!-- Video getBookById(String video_id) -->
+  <select id="getBookById" resultType="com.bupt.qingzaoreading.po.Video" parameterType="java.lang.String">
+    select
+ 		*
+    from video
+    where video_id=#{video_id} AND publish_time &lt; now();
+  </select>
+
+
+  <!-- String getparentguidancebyid(String video_id) -->
+  <select id="getparentguidancebyid" resultType="java.lang.String" parameterType="java.lang.String">
+    select
+ 		parental_guidance
+    from video
+   where video_id=#{video_id};
+  </select>
+
+
+  <!--List<BookList> getBookListByType(String video_type)-->
+  <select id="getBookListByType" resultType="com.bupt.qingzaoreading.vo.BookList" parameterType="java.lang.String">
+    select
+ 		video_id,video_cover_url,name,short_introduction,video_type,video_year,number_of_readers,time
+    from video
+    where video_type=#{video_type} AND publish_time &lt; now();
+  </select>
+
+
+  <!--List<BookList> getBookListByYear(YearLongForSearch yearLongForSearch);-->
+  <select id="getBookListByYear" resultType="com.bupt.qingzaoreading.vo.BookList" parameterType="com.bupt.qingzaoreading.vo.YearLongForSearch">
+    select
+ 		video_id,video_cover_url,name,short_introduction,video_type,video_year,number_of_readers,time
+    from video
+    where video_year <![CDATA[   >=  ]]> #{min} AND video_year<![CDATA[   <=  ]]> #{max} AND publish_time &lt; now();
+  </select>
+
+
+
+  <!-- List<BookList> getbooklistbyid(String lecturer_id) -->
+  <select id="getbooklistbyid" resultType="com.bupt.qingzaoreading.vo.BookList" parameterType="java.lang.String">
+    select
+ 		video_id,video_cover_url,name,short_introduction,video_type,video_year,number_of_readers,time
+    from video
+   where lecturer_id=#{lecturer_id}  AND publish_time &lt; now();
+  </select>
+
+  <!--List<BookList> search(String video_name);-->
+  <select id="search" resultType="com.bupt.qingzaoreading.vo.BookList" parameterType="java.lang.String">
+    select
+    DISTINCT	video_id,video_cover_url,name,short_introduction,video_type,video_year,number_of_readers,time
+    from video ,lecturer
+    where ( video.`name` LIKE  CONCAT("%",#{video_name},"%") OR (lecturer_name LIKE  CONCAT("%",#{video_name},"%") and video.lecturer_id=lecturer.lecturer_id)  )AND publish_time &lt; now();
+  </select>
+
+
+
+  <!-- List<LikeBookList> likebooklist(String video_id)  -->
+  <select id="likebooklist" resultType="com.bupt.qingzaoreading.vo.LikeBookList" parameterType="java.lang.String">
+  select
+ 		video_id,video_cover_url,name,short_introduction
+    from video
+   where video_type =(SELECT video_type FROM video where video_id=#{video_id}) AND video_id !=#{video_id} AND publish_time &lt; now();
+  </select>
+
+
+</mapper>
